@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const {sequelize} = require("../exports.js");
 
+const Factory = sequelize.define('Factory', { id: DataTypes.INTEGER });
 export const User = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
@@ -26,6 +27,13 @@ export const User = sequelize.define('User', {
     role: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    factory_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Factory,
+            key: 'id'
+        }
     }
 }, {
     timestamps: false,

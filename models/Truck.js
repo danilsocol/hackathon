@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import {sequelize} from "../exports.js";
 
-
+const Factory = sequelize.define('Factory', { id: DataTypes.INTEGER });
 export const Truck = sequelize.define('Truck', { //Todo изменить 2 по заезда
     id: {
         type: DataTypes.INTEGER,
@@ -35,6 +35,13 @@ export const Truck = sequelize.define('Truck', { //Todo изменить 2 по 
     production_volume: {
         type: DataTypes.DOUBLE,
         allowNull: false
+    },
+    factory_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Factory,
+            key: 'id'
+        }
     }
 }, {
     timestamps: false,

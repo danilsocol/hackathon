@@ -1,9 +1,7 @@
 import {DataTypes } from 'sequelize';
 import {sequelize} from "../exports.js";
 
-const Factory = sequelize.define('Factory', { id: DataTypes.INTEGER });
-
-export const Metal = sequelize.define('Metal', {
+export const Factory = sequelize.define('Factory', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -13,15 +11,8 @@ export const Metal = sequelize.define('Metal', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    factory_id: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: Factory,
-            key: 'id'
-        }
-    }
 }, {
     timestamps: false,
-    tableName: 'Metal',
+    tableName: 'Factory',
     sequelize
 });
