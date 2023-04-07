@@ -1,9 +1,7 @@
-import { Sequelize, DataTypes } from 'sequelize';
+import {DataTypes } from 'sequelize';
+import {sequelize} from "../exports.js";
 
-const sequelize = new Sequelize('sqlite::memory:');
-
-
-const Metal = sequelize.define('Metal', {
+export const Metal = sequelize.define('Metal', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -14,4 +12,7 @@ const Metal = sequelize.define('Metal', {
         allowNull: false
     },
 }, {
+    timestamps: false,
+    tableName: 'Metal',
+    sequelize
 });

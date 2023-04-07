@@ -1,9 +1,8 @@
 import { Sequelize, DataTypes } from 'sequelize';
+import {sequelize} from "../exports.js";
 
-const sequelize = new Sequelize('sqlite::memory:');
 
-
-const Truck = sequelize.define('Truck', {
+export const Truck = sequelize.define('Truck', { //Todo изменить 2 по заезда
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -25,11 +24,10 @@ const Truck = sequelize.define('Truck', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    checkpoint_number: { // todo ключ
+    checkpoint_number: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    //todo возможно хранение id набора или типо того
     type_production_volume: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -39,4 +37,7 @@ const Truck = sequelize.define('Truck', {
         allowNull: false
     }
 }, {
+    timestamps: false,
+    tableName: 'Truck',
+    sequelize
 });

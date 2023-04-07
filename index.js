@@ -1,18 +1,19 @@
 import express from "express"
-import {Sequelize} from "sequelize"
+import {sequelize} from "./exports.js";
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: 'database/database.sqlite'
-});
+const PORT =  process.env.PORT || 3001;
+const app = express();
 
-
-
+app.use(express.json());
 
 try {
     await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-} catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.log('Соединение с БД было успешно установлено');
+} catch (e) {
+    console.log('Невозможно выполнить подключение к БД: ', e);
 }
 
+await sequelize.sync({force:true});
+
+app.get("/",  );
+app.listen(PORT, () => console.log(`good`));

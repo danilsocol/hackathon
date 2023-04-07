@@ -1,13 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const {sequelize} = require("../exports.js");
 
-const sequelize = new Sequelize('sqlite::memory:'); // TODO заччем это надо
-//фио
-//ЛОГИН
-//ПАРОТЛЬ
-// ПОЧТА
-// рОЛЬ
-
-const User = sequelize.define('User', {
+export const User = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -34,4 +28,7 @@ const User = sequelize.define('User', {
         allowNull: false
     }
 }, {
+    timestamps: false,
+    tableName: 'User',
+    sequelize
 });
