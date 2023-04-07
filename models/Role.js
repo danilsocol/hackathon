@@ -1,10 +1,10 @@
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from "./exports.js";
 
-export class Factory extends Model {}
 
+export class Role extends Model {}
 
-Factory.init({
+Role.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -16,6 +16,6 @@ Factory.init({
     },
 }, {
     timestamps: false,
-    tableName: 'Factory',
-    sequelize,
+    tableName: 'Role',
+    sequelize
 })

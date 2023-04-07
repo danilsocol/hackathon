@@ -1,8 +1,15 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const {sequelize} = require("../exports.js");
+import { Model, DataTypes } from 'sequelize';
+import {sequelize} from "./exports.js";
+import {Factory} from "./Factory.js";
+import {Role} from "./Role.js";
+export class User extends Model{}
 
+/*
 const Factory = sequelize.define('Factory', { id: DataTypes.INTEGER });
-export const User = sequelize.define('User', {
+const Role = sequelize.define('Role', { id: DataTypes.INTEGER });
+*/
+
+User.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -24,9 +31,12 @@ export const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    role: {
+    role_id: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        references: {
+            model: Role,
+            key: 'id'
+        }
     },
     factory_id: {
         type: DataTypes.INTEGER,
@@ -40,3 +50,4 @@ export const User = sequelize.define('User', {
     tableName: 'User',
     sequelize
 });
+

@@ -1,9 +1,11 @@
-import {DataTypes } from 'sequelize';
-import {sequelize} from "../exports.js";
+import { Model, DataTypes } from 'sequelize';
+import {sequelize} from "./exports.js";
 
 const Factory = sequelize.define('Factory', { id: DataTypes.INTEGER });
 
-export const Metal = sequelize.define('Metal', {
+export class Metal extends Model {}
+
+Metal.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
