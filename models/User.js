@@ -2,6 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import {sequelize} from "./exports.js";
 import {Factory} from "./Factory.js";
 import {Role} from "./Role.js";
+import {Place} from "./Place.js";
 export class User extends Model{}
 
 /*
@@ -42,6 +43,13 @@ User.init({
         type: DataTypes.INTEGER,
         references: {
             model: Factory,
+            key: 'id'
+        }
+    },
+    place_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Place,
             key: 'id'
         }
     }

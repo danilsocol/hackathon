@@ -2,6 +2,7 @@ import {ValidationError} from "sequelize";
 import jwt  from "jsonwebtoken"
 import {Factory} from "../models/Factory.js";
 import {Role} from "../models/Role.js";
+import {Place} from "../models/Place.js";
 import {User} from "../models/User.js";
 
 export const authorization = async (req,res) => {

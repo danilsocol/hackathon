@@ -1,9 +1,10 @@
 import express from "express"
 import { sequelize} from "./models/exports.js";
 import * as AuthController from "./controllers/AuthController.js";
-import {User} from "./models/User.js";
 import {Factory} from "./models/Factory.js";
 import {Role} from "./models/Role.js";
+import {Place} from "./models/Place.js";
+import {User} from "./models/User.js";
 
 
 
@@ -27,6 +28,7 @@ console.log(User)*/
 sequelize.sync({ force: true }).then(async () => {
     await Factory.create({ id: 1,  name: "ЧЦЗ"})
     await Role.create({ id: 1,  name: "admin"})
+    await Place.create({ id: 1,  name: "КПП 1", type: "КПП",factory_id: 1})
     await User.create({id: 2, full_name: "Timur", login: "Timur", password: "123456789", mail: "Timur@mail.ru",role_id: 1,
         factory_id: 1})
 })
