@@ -50,6 +50,8 @@ sequelize.sync({ force: true }).then(async () => {
     await Metal.create({id: 6, name: "СПЛАВ ЦА08 БЛОК 1Т",factory_id:1})
     await Metal.create({id: 7, name: "КАДМИЙ КД0",factory_id:1})
     await Role.create({ id: 1,  name: "admin"})
+    await Role.create({ id: 2,  name: "guard"})
+    await Role.create({ id: 3,  name: "storekeeper"})
     await Place.create({ id: 1,  name: "КПП 6", type: "checkpoint",factory_id: 1})
     await Place.create({ id: 2,  name: "КПП 7", type: "checkpoint",factory_id: 1})
     await Place.create({ id: 3,  name: "Северные ворота", type: "gate",factory_id: 1})
@@ -58,17 +60,23 @@ sequelize.sync({ force: true }).then(async () => {
         factory_id: 1})
 })
 */
+/*await Role.create({ id: 2,  name: "guard"})
+await Role.create({ id: 3,  name: "storekeeper"})*/
 
 await sequelize.sync();
 
 app.post("/place/start", checkAuth, PlaceController.startWorkInPlace);
 app.post("/place/final", checkAuth, PlaceController.finalWorkInPlace);
 app.get("/place/", checkAuth, PlaceController.getAllFreePlace);
-app.get("/place/", checkAuth, PlaceController.getAllFreePlace);
-app.get("/truck/", checkAuth, TruckController.getAllArrivedTruck)
+app.get("/truck/all/arrived", checkAuth, TruckController.getAllArrivedTruck)
+app.get("/truck/all/noarrived", checkAuth, TruckController.getAllNoArrivedTruck)
+app.post("/truck/arrived", checkAuth, TruckController.arrivedTruck)
+app.post("/truck/blocked", checkAuth, TruckController.blockedTruck)
+app.post("/truck/delete", checkAuth, TruckController.deleteTruck)
+app.post("/truck/unblocked", checkAuth, TruckController.unblockedTruck)
 app.post("/auth/login",  AuthController.authorization);
-app.get("/auth/user/me",  AuthController.userMe);
-app.get("/auth/user/all",  AuthController.allUser);
+app.get("/auth/user/me", checkAuth,  AuthController.userMe);
+app.get("/auth/user/all", checkAuth,  AuthController.allUser);
 app.post("/auth/logout",  checkAuth, AuthController.logout);
 app.post("/data/post",  checkAuth, DataController.postData);
 app.listen(PORT, () => console.log(`good`));

@@ -30,7 +30,7 @@ export const authorization = async (req,res) => {
         const JWTToken = jwt.sign(
             {
                 email: user.email,
-                _id: user._id
+                id: user.id
             },
             jwtSecret,
             {
@@ -48,33 +48,27 @@ export const userMe = async (req,res) => {
     const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
     const decoded = jwt.verify(token,jwtSecret )
-    const user = User.findByPk(decoded.id)
-    res.json(user)
+    console.log(decoded)
+    const user = await User.findByPk(decoded.id)
+    console.log(user)
+    res.json(user).status(200)
 }
 
 export const allUser = async (req,res) => {
 
-    const user = User.findAll()
+    const user = await User.findAll()
     res.json(user)
 }
 
 
 export const logout = async (req,res) =>{
- /*   console.log(req.)*/
 
-    const {token} = req.head
+    const {token} = (req.headers.authorization || '').replace(/Bearer\s?/, '');
     const {user_id}  = req.body
-    console.log(token)
-    try {
-        const decoded = jwt.verify(token, 'secret')
-        console.log(decoded.name)
-    } catch (err) {
-        console.error(err)
-    }
 
-    const place = await Place.findAll(user_id)
+
+    const decoded = jwt.verify(token, 'secret')
+    const place = await Place.findAll({where: {user_id: decoded.id}})
     for (let i = 0 ; i<place.length;i++)
         place[i].user_id = null
-
-    //todo убить токе и что то вернуть
 }

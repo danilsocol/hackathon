@@ -1,10 +1,11 @@
 import {Place} from "../models/Place.js";
 
+
 export const getAllFreePlace = async (req,res) => {
-    const {typePlace , factory_id} = req.query
+    const {typePlace: type_place , factory_id} = req.query
 
     const allFreePlace = await Place.findAll({where: {
-            type: typePlace,
+            type: type_place,
             factory_id: factory_id,
             user_id: null
         }})
@@ -12,7 +13,9 @@ export const getAllFreePlace = async (req,res) => {
     res.json(allFreePlace)
 }
 
+
 export const finalWorkInPlace = async (req,res) =>{ //todo тип запроса
+    const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
     const {place_id}  = req.body
 
     const place = await Place.findByPk(place_id)
