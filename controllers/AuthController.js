@@ -4,6 +4,7 @@ import {Factory} from "../models/Factory.js";
 import {Role} from "../models/Role.js";
 import {Place} from "../models/Place.js";
 import {User} from "../models/User.js";
+import {jwtSecret} from "../models/exports.js";
 
 export const authorization = async (req,res) => {
 
@@ -31,7 +32,7 @@ export const authorization = async (req,res) => {
                 email: user.email,
                 _id: user._id
             },
-            "secret",
+            jwtSecret,
             {
                 expiresIn: "30d"
             }
@@ -46,7 +47,17 @@ export const authorization = async (req,res) => {
 }
 
 export const logout = async (req,res) =>{
+ /*   console.log(req.)*/
+
+    const {token} = req.head
     const {user_id}  = req.body
+    console.log(token)
+    try {
+        const decoded = jwt.verify(token, 'secret')
+        console.log(decoded.name)
+    } catch (err) {
+        console.error(err)
+    }
 
     const place = await Place.findAll(user_id)
     for (let i = 0 ; i<place.length;i++)

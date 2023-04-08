@@ -6,7 +6,7 @@ export const getAllFreePlace = async (req,res) => {
     const allFreePlace = await Place.findAll({where: {
             type: typePlace,
             factory_id: factory_id,
-            occupied: true
+            user_id: null
         }})
 
     res.json(allFreePlace)

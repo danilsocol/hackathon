@@ -4,6 +4,8 @@ export const sequelize = new Sequelize('test-db', '', '', {
     dialect: 'sqlite',
     storage: './database/database.sqlite',
 });
+
+export const jwtSecret = process.env.JWT_SECRET || "73dabcf6-cb99-4455-b864-26cf31f101f0"
 /*
 
 export class Role extends Model{}

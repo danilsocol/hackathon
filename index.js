@@ -9,6 +9,7 @@ import {User} from "./models/User.js";
 import {Metal} from "./models/Metal.js";
 import * as PlaceController from "./controllers/PlaceController.js";
 import {finalWorkInPlace} from "./controllers/PlaceController.js";
+import checkAuth from "./utils/checkAuth.js";
 
 
 
@@ -44,10 +45,10 @@ sequelize.sync({ force: true }).then(async () => {
 
 await sequelize.sync();
 
-app.post("/place/start",  PlaceController.startWorkInPlace);
-app.post("/place/final",  PlaceController.finalWorkInPlace);
-app.get("/place/",  PlaceController.getAllFreePlace);
-app.post("/auth/login",  AuthController.authorization);
-app.post("/auth/logout",  AuthController.logout);
-app.post("/data/post",  DataController.postData);
+app.post("/place/start", checkAuth, PlaceController.startWorkInPlace);
+app.post("/place/final", checkAuth, PlaceController.finalWorkInPlace);
+app.get("/place/", checkAuth, PlaceController.getAllFreePlace);
+app.post("/login",  AuthController.authorization);
+app.post("/logout",  checkAuth, AuthController.logout);
+app.post("/data/post",  checkAuth, DataController.postData);
 app.listen(PORT, () => console.log(`good`));
