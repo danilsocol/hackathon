@@ -45,12 +45,13 @@ export const authorization = async (req,res) => {
     }
 
 }
-/*
-export const getUsers = async (req,res) => {
 
-    const user = await Test.findOne({where: {id: 1}});
-    if(!user) {
-        console.log("Nine!")
-    }
-    console.log(user)
-}*/
+export const logout = async (req,res) =>{
+    const {user_id}  = req.body
+
+    const place = await Place.findAll(user_id)
+    for (let i = 0 ; i<place.length;i++)
+        place[i].user_id = null
+
+    //todo убить токе и что то вернуть
+}

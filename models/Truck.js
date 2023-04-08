@@ -49,6 +49,11 @@ Truck.init( {
                 key: 'id'
             }
         },
+        confirm_date:{
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
+        }
     }, {
         timestamps: false,
         tableName: 'Truck',

@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from "./exports.js";
 import {Factory} from "./Factory.js";
+import {User} from "./User.js";
 
 
 export class Place extends Model {}
@@ -25,7 +26,15 @@ Place.init({
             model: Factory,
             key: 'id'
         }
-    }
+    },
+    user_id:{
+        type: DataTypes.INTEGER,
+        references: {
+            model: User,
+            key: 'id'
+        },
+        allowNull: true
+    },
 }, {
     timestamps: false,
     tableName: 'Place',
