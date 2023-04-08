@@ -50,14 +50,15 @@ export const userMe = async (req,res) => {
     const decoded = jwt.verify(token,jwtSecret )
     console.log(decoded)
     const user = await User.findByPk(decoded.id)
-    console.log(user)
+
     res.json(user).status(200)
 }
 
 export const allUser = async (req,res) => {
+    const {factory_id} = req.query
 
-    const user = await User.findAll()
-    res.json(user)
+    const user = await User.findAll({where:{factory_id:factory_id}})
+    res.json(user).status(200)
 }
 
 
@@ -71,4 +72,6 @@ export const logout = async (req,res) =>{
     const place = await Place.findAll({where: {user_id: decoded.id}})
     for (let i = 0 ; i<place.length;i++)
         place[i].user_id = null
+
+    res.status(200)
 }

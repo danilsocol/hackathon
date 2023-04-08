@@ -10,7 +10,7 @@ export const getAllFreePlace = async (req,res) => {
             user_id: null
         }})
 
-    res.json(allFreePlace)
+    res.json(allFreePlace).status(200)
 }
 
 
@@ -21,6 +21,7 @@ export const finalWorkInPlace = async (req,res) =>{ //todo тип запроса
     const place = await Place.findByPk(place_id)
     place.user_id = null
     await place.save()
+    res.status(200)
 }
 
 export const startWorkInPlace = async (req,res) =>{ //todo тип запроса
@@ -31,4 +32,5 @@ export const startWorkInPlace = async (req,res) =>{ //todo тип запроса
         return res.json("Объект занят")
     place.user_id = user_id
     await place.save()
+    res.status(200)
 }

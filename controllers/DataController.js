@@ -99,7 +99,7 @@ export const postData = async (req,res) =>{
         await transaction.commit();
         ex = false
         currentlyAdminId = null
-        return res.json(true)
+        return res.json(true).status(200)
     }
 
 }
