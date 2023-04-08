@@ -1,10 +1,12 @@
 import express from "express"
 import { sequelize} from "./models/exports.js";
 import * as AuthController from "./controllers/AuthController.js";
+import * as DataController from "./controllers/DataController.js"
 import {Factory} from "./models/Factory.js";
 import {Role} from "./models/Role.js";
 import {Place} from "./models/Place.js";
 import {User} from "./models/User.js";
+import {Metal} from "./models/Metal.js";
 
 
 
@@ -27,8 +29,9 @@ console.log(Test)
 console.log(User)*/
 sequelize.sync({ force: true }).then(async () => {
     await Factory.create({ id: 1,  name: "ЧЦЗ"})
+    await Metal.create({id: 1, name: "product",factory_id:1})
     await Role.create({ id: 1,  name: "admin"})
-    await Place.create({ id: 1,  name: "КПП 1", type: "КПП",factory_id: 1})
+    await Place.create({ id: 1,  name: "КПП 6", type: "КПП",factory_id: 1})
     await User.create({id: 2, full_name: "Timur", login: "Timur", password: "123456789", mail: "Timur@mail.ru",role_id: 1,
         factory_id: 1})
 })
@@ -38,4 +41,5 @@ sequelize.sync({ force: true }).then(async () => {
 await sequelize.sync({force:true});
 
 app.post("/auth",  AuthController.authorization);
+app.post("/data",  DataController.acceptData);
 app.listen(PORT, () => console.log(`good`));

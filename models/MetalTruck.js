@@ -1,9 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from "./exports.js";
+import {Metal} from "./Metal.js";
+import {Truck} from "./Truck.js";
+import {Factory} from "./Factory.js";
 
-const Metal = sequelize.define('Metal', { id: DataTypes.INTEGER });
-const Truck = sequelize.define('Truck', { id: DataTypes.INTEGER });
-const Factory = sequelize.define('Factory', { id: DataTypes.INTEGER });
 
 export class MetalTruck extends Model {}
 

@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from "./exports.js";
+import {Factory} from "./Factory.js";
 
-const Factory = sequelize.define('Factory', { id: DataTypes.INTEGER });
 
 export class Metal extends Model {}
 

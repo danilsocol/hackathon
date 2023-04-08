@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from "./exports.js";
-
-const Factory = sequelize.define('Factory', { id: DataTypes.INTEGER });
+import {Factory} from "./Factory.js";
+import {Place} from "./Place.js";
 
 export class Truck extends Model{}
 
@@ -27,12 +27,15 @@ Truck.init( {
             type: DataTypes.STRING,
             allowNull: false
         },
-        checkpoint_number: {
+        checkpoint_id: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            references: {
+                model: Place,
+                key: 'id'
+            }
         },
         type_production_volume: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         production_volume: {
@@ -45,7 +48,7 @@ Truck.init( {
                 model: Factory,
                 key: 'id'
             }
-        }
+        },
     }, {
         timestamps: false,
         tableName: 'Truck',
