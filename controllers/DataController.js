@@ -5,19 +5,23 @@ import {Metal} from "../models/Metal.js";
 import {MetalTruck} from "../models/MetalTruck.js";
 import {sequelize} from "../models/exports.js";
 
-let isStart = true;
-let CheckError = false;
 let transaction ;
 let count = 0
-export const postData = async (req,res) =>{
-    let listError = {}
 
-    if(isStart){
-        transaction = await sequelize.transaction();
-        isStart = false
+let currentlyAdminId = null
+export const postData = async (req,res) =>{
+
+    let {arr,adminId,final,ex} = req.body
+
+    if(currentlyAdminId === null){
+        transaction = await sequelize.transaction()
+        currentlyAdminId = adminId
+    }
+    else if(currentlyAdminId !== adminId){
+        return res.json("плохо").status(405)
     }
 
-    const arr = req.body
+    let listError = {}
 
     for(let i = 0; i < arr.length; i++) { //TODO  выводить ошибку сделать роллбек
         let countError = 0
@@ -25,7 +29,7 @@ export const postData = async (req,res) =>{
 
         const metal =  await Metal.findOne( {where: {name: arr[i].metal }})
         const place = await Place.findOne({where: {
-                name: arr[i].checkpoint_number,
+                name: arr[i].checkpoint_id,
                 factory_id: arr[i].factory_id}})
         console.log(metal)
         console.log(!metal)
@@ -67,22 +71,25 @@ export const postData = async (req,res) =>{
         if(countError !== 0){
             list[countError] = arr[i]
             listError[count] = list
-            CheckError = true
+            ex = true
             count++
         }
    }
-
-      return res.json(listError)
-}
-
-export const saveData = async (req,res) =>{
-    if(CheckError){
+    if(!final){
+        return res.json(listError)
+    }
+    else if(ex){
         await transaction.rollback();
+
+        currentlyAdminId = null
+        return res.json(false)
+
     }
-    else
-    {
+    else{
         await transaction.commit();
+        currentlyAdminId = null
+        return res.json(true)
     }
-    isStart = true
-    return res.json(!CheckError)
+
 }
+

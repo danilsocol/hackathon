@@ -50,5 +50,4 @@ app.get("/place/",  PlaceController.getAllFreePlace);
 app.post("/auth/login",  AuthController.authorization);
 app.post("/auth/logout",  AuthController.logout);
 app.post("/data/post",  DataController.postData);
-app.post("/data/save", DataController.saveData)
 app.listen(PORT, () => console.log(`good`));

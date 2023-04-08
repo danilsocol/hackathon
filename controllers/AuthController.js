@@ -26,7 +26,6 @@ export const authorization = async (req,res) => {
         throw new ValidationError("Неверный Пароль");
     }
     else{
-        console.log(2)
         const JWTToken = jwt.sign(
             {
                 email: user.email,
