@@ -42,11 +42,12 @@ sequelize.sync({ force: true }).then(async () => {
     await Metal.create({id: 4, name: "СПЛАВ ЦА04 БЛОК 1Т",factory_id:1})
     await Metal.create({id: 5, name: "СПЛАВ ЦА06 БЛОК 1Т",factory_id:1})
     await Metal.create({id: 6, name: "СПЛАВ ЦА08 БЛОК 1Т",factory_id:1})
+    await Metal.create({id: 7, name: "КАДМИЙ КД0",factory_id:1})
     await Role.create({ id: 1,  name: "admin"})
     await Place.create({ id: 1,  name: "КПП 6", type: "checkpoint",factory_id: 1})
     await Place.create({ id: 2,  name: "КПП 7", type: "checkpoint",factory_id: 1})
     await Place.create({ id: 3,  name: "Северные ворота", type: "gate",factory_id: 1})
-    await Place.create({ id: 4,  name: "КПП 6", type: "gate",factory_id: 1})
+    await Place.create({ id: 4,  name: "КПП № 6", type: "checkpoint",factory_id: 1})
     await User.create({id: 2, full_name: "Timur", login: "Timur", password: "123456789", mail: "Timur@mail.ru",role_id: 1,
         factory_id: 1})
 })

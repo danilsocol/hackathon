@@ -5,14 +5,16 @@ import {Metal} from "../models/Metal.js";
 import {MetalTruck} from "../models/MetalTruck.js";
 import {sequelize} from "../models/exports.js";
 import {StatusTruck} from "../models/StatusTruck.js";
+import {DOUBLE} from "sequelize";
 
 let transaction ;
 let count = 0
+let ex = false
 
 let currentlyAdminId = null
 export const postData = async (req,res) =>{
     console.log(req.body)
-    let {arr,adminId,final,ex} = req.body
+    let {arr,adminId,final} = req.body
 
     if(currentlyAdminId === null){
         transaction = await sequelize.transaction()
@@ -31,7 +33,8 @@ export const postData = async (req,res) =>{
         const metal =  await Metal.findOne( {where: {name: arr[i].metal }})
         const place = await Place.findOne({where: {
                 name: arr[i].checkpoint_id,
-                factory_id: arr[i].factory_id}})
+                factory_id: arr[i].factory_id
+            }})
 
         if(!metal){
             list[countError] = "Такого вида продукции не существует"
@@ -44,6 +47,8 @@ export const postData = async (req,res) =>{
         }
 
         try{
+            console.log(parseFloat(arr[i].production_volume))
+
             const truck = await Truck.create({
                 pass_number: arr[i].pass_number,
                 car_number: arr[i].car_number,
@@ -51,13 +56,13 @@ export const postData = async (req,res) =>{
                 recipient_organization: arr[i].recipient_organization,
                 checkpoint_id: place.dataValues.id,
                 type_production_volume: arr[i].type_production_volume,
-                production_volume: arr[i].production_volume,
+                production_volume:  parseFloat(arr[i].production_volume),
                 factory_id: arr[i].factory_id},
                 { transaction })
 
             const statusTruck = await  StatusTruck.create({
                 truck_id: truck.dataValues.id
-            })
+            },{ transaction })
 
             const metal_truck = await MetalTruck.create({
                 factory_id: arr[i].factory_id,
@@ -67,6 +72,7 @@ export const postData = async (req,res) =>{
         }
         catch (e)
         {
+            console.log(e)
             list[countError] = "Не получилось создать грузовик"
             countError++
         }
@@ -77,19 +83,22 @@ export const postData = async (req,res) =>{
             ex = true
             count++
         }
+
    }
     if(!final){
         return res.json(listError)
+
     }
     else if(ex){
         await transaction.rollback();
-
+        ex = false
         currentlyAdminId = null
         return res.json(false)
 
     }
     else{
         await transaction.commit();
+        ex = false
         currentlyAdminId = null
         return res.json(true)
     }
