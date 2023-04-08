@@ -47,7 +47,6 @@ export const postData = async (req,res) =>{
         }
 
         try{
-            console.log(parseFloat(arr[i].production_volume))
 
             const truck = await Truck.create({
                 pass_number: arr[i].pass_number,
@@ -60,9 +59,9 @@ export const postData = async (req,res) =>{
                 factory_id: arr[i].factory_id},
                 { transaction })
 
-            const statusTruck = await  StatusTruck.create({
+           /* const statusTruck = await  StatusTruck.create({
                 truck_id: truck.dataValues.id
-            },{ transaction })
+            },{ transaction })*/
 
             const metal_truck = await MetalTruck.create({
                 factory_id: arr[i].factory_id,

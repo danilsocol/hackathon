@@ -10,6 +10,11 @@ import {Metal} from "./models/Metal.js";
 import * as PlaceController from "./controllers/PlaceController.js";
 import cors from 'cors'
 import checkAuth from "./utils/checkAuth.js";
+import {StatusTruck} from "./models/StatusTruck.js";
+import {getAllArrivedTruck} from "./controllers/TruckController.js";
+import * as TruckController from "./controllers/TruckController.js";
+import {Truck} from "./models/Truck.js";
+import {allUser} from "./controllers/AuthController.js";
 
 const PORT =  process.env.PORT || 3001;
 const app = express();
@@ -34,6 +39,7 @@ try {
 /*
 console.log(Test)
 console.log(User)*/
+/*
 sequelize.sync({ force: true }).then(async () => {
     await Factory.create({ id: 1,  name: "ЧЦЗ"})
     await Metal.create({id: 1, name: "product",factory_id:1})
@@ -51,6 +57,7 @@ sequelize.sync({ force: true }).then(async () => {
     await User.create({id: 2, full_name: "Timur", login: "Timur", password: "123456789", mail: "Timur@mail.ru",role_id: 1,
         factory_id: 1})
 })
+*/
 
 await sequelize.sync();
 
@@ -58,8 +65,10 @@ app.post("/place/start", checkAuth, PlaceController.startWorkInPlace);
 app.post("/place/final", checkAuth, PlaceController.finalWorkInPlace);
 app.get("/place/", checkAuth, PlaceController.getAllFreePlace);
 app.get("/place/", checkAuth, PlaceController.getAllFreePlace);
+app.get("/truck/", checkAuth, TruckController.getAllArrivedTruck)
 app.post("/auth/login",  AuthController.authorization);
-app.post("/auth/user/me",  AuthController.userMe);
+app.get("/auth/user/me",  AuthController.userMe);
+app.get("/auth/user/all",  AuthController.allUser);
 app.post("/auth/logout",  checkAuth, AuthController.logout);
 app.post("/data/post",  checkAuth, DataController.postData);
 app.listen(PORT, () => console.log(`good`));

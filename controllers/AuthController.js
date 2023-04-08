@@ -52,6 +52,13 @@ export const userMe = async (req,res) => {
     res.json(user)
 }
 
+export const allUser = async (req,res) => {
+
+    const user = User.findAll()
+    res.json(user)
+}
+
+
 export const logout = async (req,res) =>{
  /*   console.log(req.)*/
 

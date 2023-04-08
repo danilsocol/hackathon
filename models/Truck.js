@@ -11,6 +11,16 @@ Truck.init( {
             autoIncrement: true,
             primaryKey: true
         },
+        isArrived: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        isBlock: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
         pass_number: {
             type: DataTypes.STRING,
             allowNull: false

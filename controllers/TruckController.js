@@ -10,12 +10,26 @@ export const arrivedTruck =async (req,res) => {
     await truck.save()
 }
 
-export const blockedTruck =async (req,res) => { //todo их тут может несколько
-    const {truck_id} = req.body
+export const blockedTruck =async (req,res) => { // todo посмотреть как принимаю
+    const {arr} = req.body
 
-    const truck = await StatusTruck.findByPk(truck_id)
-    truck.dataValues.isBlock = true
-    await truck.save()
+    for (let i = 0; i< arr.length; i++){
+        const truck = await StatusTruck.findByPk(arr[i])
+        truck.dataValues.isBlock = true
+        await truck.save()
+    }
+
+}
+
+export const unblockedTruck =async (req,res) => { // todo посмотреть как принимаю
+    const {arr} = req.body
+
+    for (let i = 0; i< arr.length; i++){
+        const truck = await StatusTruck.findByPk(arr[i])
+        truck.dataValues.isBlock = false
+        await truck.save()
+    }
+
 }
 
 export const deleteTruck =async (req,res) => {
@@ -32,3 +46,16 @@ export const deleteTruck =async (req,res) => {
     const truck = await Truck.findByPk(truck_id)
     await truck.delete()
 }
+
+export const getAllArrivedTruck = async (req,res) => {
+
+    const trucks = await Truck.findAll({
+        where:{
+        isArrived: true
+        }
+    })
+
+    console.log(trucks)
+    return res.json(trucks)
+}
+
