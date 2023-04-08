@@ -24,6 +24,8 @@ export const startWorkInPlace = async (req,res) =>{ //todo тип запроса
     const {place_id,user_id}  = req.body
 
     const place = await Place.findByPk(place_id)
+    if(place.user_id !== null)
+        return res.json("Объект занят")
     place.user_id = user_id
     await place.save()
 }

@@ -8,15 +8,18 @@ import {Place} from "./models/Place.js";
 import {User} from "./models/User.js";
 import {Metal} from "./models/Metal.js";
 import * as PlaceController from "./controllers/PlaceController.js";
-import {finalWorkInPlace} from "./controllers/PlaceController.js";
+import cors from 'cors'
 import checkAuth from "./utils/checkAuth.js";
-
-
 
 const PORT =  process.env.PORT || 3001;
 const app = express();
 
 app.use(express.json());
+
+
+
+app.use(cors())
+
 
 
 try {
@@ -26,6 +29,7 @@ try {
     console.log('Невозможно выполнить подключение к БД: ', e);
 }
 
+
 /*Init()*/
 /*
 console.log(Test)
@@ -33,6 +37,11 @@ console.log(User)*/
 sequelize.sync({ force: true }).then(async () => {
     await Factory.create({ id: 1,  name: "ЧЦЗ"})
     await Metal.create({id: 1, name: "product",factory_id:1})
+    await Metal.create({id: 2, name: "ЦИНК ЦВ0 ПАКЕТ",factory_id:1})
+    await Metal.create({id: 3, name: "КЛИНКЕР",factory_id:1})
+    await Metal.create({id: 4, name: "СПЛАВ ЦА04 БЛОК 1Т",factory_id:1})
+    await Metal.create({id: 5, name: "СПЛАВ ЦА06 БЛОК 1Т",factory_id:1})
+    await Metal.create({id: 6, name: "СПЛАВ ЦА08 БЛОК 1Т",factory_id:1})
     await Role.create({ id: 1,  name: "admin"})
     await Place.create({ id: 1,  name: "КПП 6", type: "checkpoint",factory_id: 1})
     await Place.create({ id: 2,  name: "КПП 7", type: "checkpoint",factory_id: 1})
@@ -42,13 +51,14 @@ sequelize.sync({ force: true }).then(async () => {
         factory_id: 1})
 })
 
-
 await sequelize.sync();
 
 app.post("/place/start", checkAuth, PlaceController.startWorkInPlace);
 app.post("/place/final", checkAuth, PlaceController.finalWorkInPlace);
 app.get("/place/", checkAuth, PlaceController.getAllFreePlace);
-app.post("/login",  AuthController.authorization);
-app.post("/logout",  checkAuth, AuthController.logout);
+app.get("/place/", checkAuth, PlaceController.getAllFreePlace);
+app.post("/auth/login",  AuthController.authorization);
+app.post("/auth/user/me",  AuthController.userMe);
+app.post("/auth/logout",  checkAuth, AuthController.logout);
 app.post("/data/post",  checkAuth, DataController.postData);
 app.listen(PORT, () => console.log(`good`));

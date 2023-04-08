@@ -53,7 +53,12 @@ Truck.init( {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW
-        }
+        },
+        region:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "Chelyabinsk"
+    }
     }, {
         timestamps: false,
         tableName: 'Truck',

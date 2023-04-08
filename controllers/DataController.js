@@ -4,13 +4,14 @@ import {Truck} from "../models/Truck.js";
 import {Metal} from "../models/Metal.js";
 import {MetalTruck} from "../models/MetalTruck.js";
 import {sequelize} from "../models/exports.js";
+import {StatusTruck} from "../models/StatusTruck.js";
 
 let transaction ;
 let count = 0
 
 let currentlyAdminId = null
 export const postData = async (req,res) =>{
-
+    console.log(req.body)
     let {arr,adminId,final,ex} = req.body
 
     if(currentlyAdminId === null){
@@ -31,14 +32,12 @@ export const postData = async (req,res) =>{
         const place = await Place.findOne({where: {
                 name: arr[i].checkpoint_id,
                 factory_id: arr[i].factory_id}})
-        console.log(metal)
-        console.log(!metal)
+
         if(!metal){
             list[countError] = "Такого вида продукции не существует"
             countError++
         }
-        console.log(place)
-        console.log(!place)
+
         if(!place){
             list[countError] = "Такого КПП не существует"
             countError++
@@ -55,6 +54,10 @@ export const postData = async (req,res) =>{
                 production_volume: arr[i].production_volume,
                 factory_id: arr[i].factory_id},
                 { transaction })
+
+            const statusTruck = await  StatusTruck.create({
+                truck_id: truck.dataValues.id
+            })
 
             const metal_truck = await MetalTruck.create({
                 factory_id: arr[i].factory_id,

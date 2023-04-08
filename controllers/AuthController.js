@@ -34,16 +34,22 @@ export const authorization = async (req,res) => {
             },
             jwtSecret,
             {
-                expiresIn: "30d"
+                expiresIn: "1d"
             }
         );
         return res.status(200).json({
-            success: "Welcome to the JWT Auth",
+            user,
             token: JWTToken
         });
-
     }
+}
 
+export const userMe = async (req,res) => {
+    const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
+
+    const decoded = jwt.verify(token,jwtSecret )
+    const user = User.findByPk(decoded.id)
+    res.json(user)
 }
 
 export const logout = async (req,res) =>{
