@@ -4,16 +4,24 @@ import {Metal} from "../models/Metal.js";
 
 
 export const arrivedTruck =async (req,res) => {
-    const {truck_id} = req.body
+    try{
+        const {truck_id} = req.body
 
-    const truck = await Truck.findByPk(truck_id)
-    truck.isArrived = true
-    await truck.save()
-    return res.json("good").status(200)
+        const truck = await Truck.findByPk(truck_id)
+        truck.isArrived = true
+        await truck.save()
+        return res.json("good").status(200)
+    }
+    catch (e){
+        console.log(e)
+        return res.json("no good").status(200)
+    }
 }
 
 
 export const blockedTruck =async (req,res) => { // todo посмотреть как принимаю
+try {
+
 
 
     console.log(req.body.blocked_car)
@@ -25,8 +33,16 @@ export const blockedTruck =async (req,res) => { // todo посмотреть к�
     }
     return res.json("good").status(200)
 }
+catch (e){
+    console.log(e)
+    return res.json("no good").status(200)
+}
+}
 
 export const unblockedTruck =async (req,res) => { // todo посмотреть как принимаю
+    try{
+
+
     const {truck_id} = req.body
 
         const truck = await Truck.findByPk(truck_id)
@@ -34,8 +50,14 @@ export const unblockedTruck =async (req,res) => { // todo посмотреть �
         await truck.save()
     return res.json("good").status(200)
     }
+    catch (e){
+        console.log(e)
+        return res.json("no good").status(200)
+    }
+    }
 
 export const deleteTruck =async (req,res) => {
+    try{
     const {truck_id} = req.body
 
    /* const statusTruck = await Truck.findOne({where:{truck_id: truck_id}})
@@ -53,10 +75,16 @@ export const deleteTruck =async (req,res) => {
     console.log(truck)
     await truck.delete()*/
     return res.json("good").status(200)
+    }
+    catch (e){
+        console.log(e)
+        return res.json("no good").status(200)
+    }
 }
 
 export const getAllArrivedTruck = async (req,res) => {
-    const {factory_id} = req.query
+    try{
+          const {factory_id} = req.query
 
     /*   const pass_trucks = await Truck.findAll({group: 'pass_number'})
        for (let i =0;i< pass_trucks.length; i++){
@@ -76,8 +104,14 @@ export const getAllArrivedTruck = async (req,res) => {
 
     })
     return res.json(trucks).status(200)
+    }
+    catch (e){
+        console.log(e)
+        return res.json("no good").status(200)
+    }
 }
 
+/*
 export const test = async (req,res) => {
     try{
 
@@ -85,10 +119,10 @@ export const test = async (req,res) => {
     const pass_trucks = await Truck.findAll({where:{ isArrived: true,
             isBlock: false}
     ,group: 'pass_number'})
-  /*  for (let i =0;i< pass_trucks.length; i++){
+  /!*  for (let i =0;i< pass_trucks.length; i++){
         console.log(pass_trucks[i].dataValues.pass_number)
-    }*/
-   /* console.log(pass_trucks) */
+    }*!/
+   /!* console.log(pass_trucks) *!/
     let metallist = {}
     for(let i =0;i<pass_trucks.length;i++){
 
@@ -124,8 +158,10 @@ export const test = async (req,res) => {
         return res.json("nogood")
     }
 }
+*/
 
 export const getAllNoArrivedTruck = async (req,res) => {
+    try{
     const {factory_id} = req.query
 
     const trucks = await Truck.findAll({
@@ -137,4 +173,9 @@ export const getAllNoArrivedTruck = async (req,res) => {
     })
 
     return res.json(trucks).status(200)
+    }
+    catch (e){
+        console.log(e)
+        return res.json("no good").status(200)
+    }
 }

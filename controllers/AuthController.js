@@ -52,24 +52,39 @@ export const authorization = async (req,res) => {
 }
 
 export const userMe = async (req,res) => {
-    const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
+    try {
 
-    const decoded = jwt.verify(token,jwtSecret )
-    console.log(decoded)
-    const user = await User.findByPk(decoded.id)
+        const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
-    res.json(user).status(200)
+        const decoded = jwt.verify(token, jwtSecret)
+        console.log(decoded)
+        const user = await User.findByPk(decoded.id)
+
+        res.json(user).status(200)
+    }
+    catch (e){
+        console.log(e)
+        return res.json("no good").status(200)
+    }
 }
 
 export const allUser = async (req,res) => {
+    try{
     const {factory_id} = req.query
 
     const user = await User.findAll({where:{factory_id:factory_id}})
     res.json(user).status(200)
+    }
+    catch (e){
+        console.log(e)
+        return res.json("no good").status(200)
+    }
 }
 
 
 export const logout = async (req,res) =>{
+    try{
+
     const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
     const decoded = jwt.verify(token,jwtSecret )
@@ -81,4 +96,9 @@ export const logout = async (req,res) =>{
 
     }
     return res.json("good").status(200)
+    }
+    catch (e){
+        console.log(e)
+        return res.json("no good").status(200)
+    }
 }
