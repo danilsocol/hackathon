@@ -20,6 +20,8 @@ export const authorization = async (req,res) => {
         console.log('Error:', e);
     }
 
+    try {
+
     if(!user){
         throw new ValidationError("Пользователь не найден");
     }
@@ -42,6 +44,11 @@ export const authorization = async (req,res) => {
             token: JWTToken
         });
     }
+    }
+    catch (e){
+        console.log("Error"+ e)
+        return res.json("Error"+ e).status(405)
+    }
 }
 
 export const userMe = async (req,res) => {
@@ -63,15 +70,15 @@ export const allUser = async (req,res) => {
 
 
 export const logout = async (req,res) =>{
+    const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
-    const {token} = (req.headers.authorization || '').replace(/Bearer\s?/, '');
-    const {user_id}  = req.body
-
-
-    const decoded = jwt.verify(token, 'secret')
+    const decoded = jwt.verify(token,jwtSecret )
     const place = await Place.findAll({where: {user_id: decoded.id}})
-    for (let i = 0 ; i<place.length;i++)
-        place[i].user_id = null
 
-    res.status(200)
+    for (let i = 0 ; i < place.length;i++){
+        place[i].user_id = null
+        await place[i].save()
+        console.log(place[i].user_id)
+    }
+    return res.json("good").status(200)
 }

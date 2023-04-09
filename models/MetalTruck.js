@@ -8,14 +8,14 @@ import {Factory} from "./Factory.js";
 export class MetalTruck extends Model {}
 
 MetalTruck.init( {
-    metal_id: {
+    MetalId: {
         type: DataTypes.INTEGER,
         references: {
             model: Metal,
             key: 'id'
         }
     },
-    truck_id: {
+    TruckId: {
         type: DataTypes.INTEGER,
         references: {
             model: Truck,
@@ -31,6 +31,6 @@ MetalTruck.init( {
     }
 }, {
     timestamps: false,
-    tableName: 'Metal-Truck',
+    tableName: 'MetalTruck',
     sequelize
 });

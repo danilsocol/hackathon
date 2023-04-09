@@ -65,8 +65,8 @@ export const postData = async (req,res) =>{
 
             const metal_truck = await MetalTruck.create({
                 factory_id: arr[i].factory_id,
-                metal_id: metal.dataValues.id,
-                truck_id: truck.dataValues.id
+                MetalId: metal.dataValues.id,
+                TruckId: truck.dataValues.id
             },{ transaction })
         }
         catch (e)

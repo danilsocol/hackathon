@@ -15,13 +15,13 @@ export const getAllFreePlace = async (req,res) => {
 
 
 export const finalWorkInPlace = async (req,res) =>{ //todo тип запроса
-    const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
+/*    const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');*/
     const {place_id}  = req.body
 
     const place = await Place.findByPk(place_id)
     place.user_id = null
     await place.save()
-    res.status(200)
+    return res.json("good").status(200)
 }
 
 export const startWorkInPlace = async (req,res) =>{ //todo тип запроса
@@ -32,5 +32,5 @@ export const startWorkInPlace = async (req,res) =>{ //todo тип запроса
         return res.json("Объект занят")
     place.user_id = user_id
     await place.save()
-    res.status(200)
+    return res.json("good").status(200)
 }
