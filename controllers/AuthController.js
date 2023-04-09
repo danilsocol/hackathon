@@ -78,7 +78,7 @@ export const logout = async (req,res) =>{
     for (let i = 0 ; i < place.length;i++){
         place[i].user_id = null
         await place[i].save()
-        console.log(place[i].user_id)
+
     }
     return res.json("good").status(200)
 }

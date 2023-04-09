@@ -29,7 +29,6 @@ export const blockedTruck =async (req,res) => { // todo посмотреть к�
 export const unblockedTruck =async (req,res) => { // todo посмотреть как принимаю
     const {truck_id} = req.body
 
-
         const truck = await Truck.findByPk(truck_id)
         truck.isBlock = false
         await truck.save()
@@ -41,14 +40,18 @@ export const deleteTruck =async (req,res) => {
 
    /* const statusTruck = await Truck.findOne({where:{truck_id: truck_id}})
     await statusTruck.delete()*/
+    console.log(req.body)
+    console.log(truck_id)
+     await MetalTruck.destroy({where: {TruckId: truck_id }})
 
-    const metalTruck = await MetalTruck.findAll({where: {truck_id: truck_id }})
-    for (let truck in metalTruck){
-        await truck.delete()
-    }
 
-    const truck = await Truck.findByPk(truck_id)
-    await truck.delete()
+
+    await Truck.destroy({where:{
+            id:truck_id
+        }})
+   /* let truck = await Truck.findByPk(truck_id)
+    console.log(truck)
+    await truck.delete()*/
     return res.json("good").status(200)
 }
 
@@ -76,29 +79,34 @@ export const getAllArrivedTruck = async (req,res) => {
 }
 
 export const test = async (req,res) => {
-    const pass_trucks = await Truck.findAll({where:{                isArrived: true,
+    try{
+
+
+    const pass_trucks = await Truck.findAll({where:{ isArrived: true,
             isBlock: false}
     ,group: 'pass_number'})
   /*  for (let i =0;i< pass_trucks.length; i++){
         console.log(pass_trucks[i].dataValues.pass_number)
     }*/
-   /* console.log(pass_trucks)
-    let metallist = {}*/
+   /* console.log(pass_trucks) */
+    let metallist = {}
     for(let i =0;i<pass_trucks.length;i++){
-        console.log(11111111111)
-        console.log(pass_trucks[i].dataValues.pass_truck)
+
         const metals = await Truck.findAll({where: {
-                pass_truck: pass_trucks[i].dataValues.pass_truck,
+                pass_number: pass_trucks[i].dataValues.pass_number,
                 isArrived: true,
                 isBlock: false
         }, include: [{
             model: MetalTruck,
             required: true,
         }],})
-        console.log(metals)
+
        let namelistmetal = {}
+        console.log(metals)
+        console.log(metals.length)
+        console.log(metals[0].dataValues.MetalTrucks.MetalId)
         for(let j =0; j< metals.length;j++){
-            let temp = metals[j].MetalTruck.dataValues.MetalId
+            let temp = metals[j].MetalTruck.MetalId
             const me = Metal.findByPk(temp)
             console.log(3)
             namelistmetal[j] = me.name
@@ -109,6 +117,12 @@ export const test = async (req,res) => {
 
     }
     console.log(metallist)
+        return res.json("good")
+    }
+    catch (e){
+        console.log(e)
+        return res.json("nogood")
+    }
 }
 
 export const getAllNoArrivedTruck = async (req,res) => {

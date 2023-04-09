@@ -75,6 +75,7 @@ await Metal.hasMany(MetalTruck);
 await sequelize.sync();
 /*await TruckController.test()*/
 
+app.get("/test", TruckController.test);
 app.post("/place/start", checkAuth, PlaceController.startWorkInPlace);
 app.post("/place/final", checkAuth, PlaceController.finalWorkInPlace);
 app.get("/place/", checkAuth, PlaceController.getAllFreePlace);
