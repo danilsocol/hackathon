@@ -76,18 +76,18 @@ await sequelize.sync();
 /*await TruckController.test()*/
 
 /*app.get("/test", TruckController.test);*/
-app.post("/place/start", checkAuth, PlaceController.startWorkInPlace);
-app.post("/place/final", checkAuth, PlaceController.finalWorkInPlace);
-app.get("/place/", checkAuth, PlaceController.getAllFreePlace);
-app.get("/truck/all/arrived", checkAuth, TruckController.getAllArrivedTruck)
-app.get("/truck/all/noarrived", checkAuth, TruckController.getAllNoArrivedTruck)
-app.post("/truck/arrived", checkAuth, TruckController.arrivedTruck)
-app.post("/truck/blocked", checkAuth, TruckController.blockedTruck)
-app.post("/truck/delete", checkAuth, TruckController.deleteTruck)
-app.post("/truck/unblocked", checkAuth, TruckController.unblockedTruck)
+app.post("/place/start",  PlaceController.startWorkInPlace);
+app.post("/place/final",  PlaceController.finalWorkInPlace);
+app.get("/place/",  PlaceController.getAllFreePlace);
+app.get("/truck/all/arrived",  TruckController.getAllArrivedTruck)
+app.get("/truck/all/noarrived",  TruckController.getAllNoArrivedTruck)
+app.post("/truck/arrived",  TruckController.arrivedTruck)
+app.post("/truck/blocked",  TruckController.blockedTruck)
+app.post("/truck/delete",  TruckController.deleteTruck)
+app.post("/truck/unblocked",  TruckController.unblockedTruck)
 app.post("/auth/login",  AuthController.authorization);
-app.get("/auth/user/me", checkAuth,  AuthController.userMe);
-app.get("/auth/user/all", checkAuth,  AuthController.allUser);
-app.post("/auth/logout",  checkAuth, AuthController.logout);
-app.post("/data/post",  checkAuth, DataController.postData);
+app.get("/auth/user/me",   AuthController.userMe);
+app.get("/auth/user/all",   AuthController.allUser);
+app.post("/auth/logout",   AuthController.logout);
+app.post("/data/post",   DataController.postData);
 app.listen(PORT, () => console.log(`good`));
